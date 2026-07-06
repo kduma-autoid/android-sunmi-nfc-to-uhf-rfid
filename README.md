@@ -22,7 +22,12 @@ Full manual, encoding format details and troubleshooting: **[docs.md](docs.md)**
 
 ## Getting the app
 
-The app is available in the **Sunmi App Store** on Sunmi devices.
+The app is available in the **Sunmi App Store** on Sunmi devices (open the link on the device):
+
+```
+market://woyou.market/appDetail?packageName=dev.duma.android.nfctorfid
+```
+
 Alternatively, download the APK from [Releases](../../releases) or build it yourself:
 
 ```bash

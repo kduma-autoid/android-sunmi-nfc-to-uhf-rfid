@@ -64,6 +64,17 @@ Design notes:
   detects this after the fact: if the *old* EPC is still in the field after a successful write,
   the app reports a duplicate-tag error.
 
+## Installation
+
+On a Sunmi device, install the app from the **Sunmi App Store** — open this link on the device:
+
+```
+market://woyou.market/appDetail?packageName=dev.duma.android.nfctorfid
+```
+
+Alternatively, download the APK from the project's GitHub Releases page or build from source
+(see [Development](#development)).
+
 ## Using the app
 
 The bottom navigation has four tabs — **About**, **Encode**, **Scan**, **Validate** — plus a
