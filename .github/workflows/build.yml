@@ -1,0 +1,82 @@
+name: Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      release-tag:
+        description: "Existing GitHub release tag to upload the APK to (e.g. v1.2.3)"
+        required: false
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # gh release upload
+    env:
+      # Single JSON secret: {"keystoreBase64": "...", "keystorePassword": "...",
+      #                      "keyAlias": "...", "keyPassword": "..."}
+      # keyPassword is optional and defaults to keystorePassword.
+      RELEASE_SIGNING: ${{ secrets.RELEASE_SIGNING }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # When called from the Release workflow, build exactly the tagged commit.
+          ref: ${{ inputs.release-tag || github.ref }}
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Unpack signing secret
+        if: env.RELEASE_SIGNING != ''
+        run: |
+          store_pwd=$(jq -r '.keystorePassword' <<< "$RELEASE_SIGNING")
+          key_alias=$(jq -r '.keyAlias' <<< "$RELEASE_SIGNING")
+          key_pwd=$(jq -r '.keyPassword // .keystorePassword' <<< "$RELEASE_SIGNING")
+          # GitHub masks the whole secret, not values extracted from it — mask them.
+          echo "::add-mask::$store_pwd"
+          echo "::add-mask::$key_pwd"
+          jq -r '.keystoreBase64' <<< "$RELEASE_SIGNING" | base64 -d > "$RUNNER_TEMP/release.keystore"
+          {
+            echo "RELEASE_KEYSTORE=$RUNNER_TEMP/release.keystore"
+            echo "RELEASE_KEYSTORE_PASSWORD=$store_pwd"
+            echo "RELEASE_KEY_ALIAS=$key_alias"
+            echo "RELEASE_KEY_PASSWORD=$key_pwd"
+          } >> "$GITHUB_ENV"
+
+      - name: Unit tests
+        run: ./gradlew :app:testDebugUnitTest
+
+      - name: Build release APK
+        run: ./gradlew :app:assembleRelease
+
+      - name: Name APK
+        id: apk
+        run: |
+          version=$(grep '^appVersionName=' gradle.properties | cut -d= -f2)
+          name="nfc-to-rfid-v${version}.apk"
+          cp app/build/outputs/apk/release/app-release.apk "$name"
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.apk.outputs.name }}
+          path: ${{ steps.apk.outputs.name }}
+
+      - name: Publish APK to GitHub release
+        if: inputs.release-tag != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "${{ inputs.release-tag }}" "${{ steps.apk.outputs.name }}" --clobber

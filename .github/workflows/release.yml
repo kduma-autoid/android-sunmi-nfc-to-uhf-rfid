@@ -1,0 +1,81 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: "Version bump type"
+        type: choice
+        options: [ patch, minor, major ]
+        default: patch
+      version:
+        description: "Explicit version X.Y.Z (overrides bump when set)"
+        required: false
+        type: string
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # push version-bump commit, tag and release
+    outputs:
+      tag: ${{ steps.bump.outputs.tag }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Bump version
+        id: bump
+        run: |
+          current=$(grep '^appVersionName=' gradle.properties | cut -d= -f2)
+          code=$(grep '^appVersionCode=' gradle.properties | cut -d= -f2)
+          if [ -n "${{ inputs.version }}" ]; then
+            new="${{ inputs.version }}"
+          else
+            IFS='.' read -r major minor patch <<< "$current"
+            case "${{ inputs.bump }}" in
+              major) new="$((major + 1)).0.0" ;;
+              minor) new="${major}.$((minor + 1)).0" ;;
+              *)     new="${major}.${minor}.$((patch + 1))" ;;
+            esac
+          fi
+          if ! [[ "$new" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Invalid version: $new (expected X.Y.Z)"
+            exit 1
+          fi
+          if git rev-parse -q --verify "refs/tags/v$new" >/dev/null; then
+            echo "::error::Tag v$new already exists"
+            exit 1
+          fi
+          new_code=$((code + 1))
+          sed -i "s/^appVersionName=.*/appVersionName=${new}/" gradle.properties
+          sed -i "s/^appVersionCode=.*/appVersionCode=${new_code}/" gradle.properties
+          echo "version=$new" >> "$GITHUB_OUTPUT"
+          echo "code=$new_code" >> "$GITHUB_OUTPUT"
+          echo "tag=v$new" >> "$GITHUB_OUTPUT"
+
+      - name: Commit, tag and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add gradle.properties
+          git commit -m "chore: release ${{ steps.bump.outputs.tag }} (versionCode ${{ steps.bump.outputs.code }})"
+          git tag "${{ steps.bump.outputs.tag }}"
+          git push origin HEAD "refs/tags/${{ steps.bump.outputs.tag }}"
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ steps.bump.outputs.tag }}" \
+            --title "${{ steps.bump.outputs.tag }}" \
+            --generate-notes
+
+  build:
+    needs: prepare
+    permissions:
+      contents: write
+    uses: ./.github/workflows/build.yml
+    with:
+      release-tag: ${{ needs.prepare.outputs.tag }}
+    secrets: inherit

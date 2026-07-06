@@ -1,0 +1,122 @@
+<resources>
+    <string name="app_name">NFC to RFID</string>
+
+    <!-- Nawigacja -->
+    <string name="tab_about">O aplikacji</string>
+    <string name="tab_encode">Koduj</string>
+    <string name="tab_scan">Skanuj</string>
+    <string name="tab_validate">Waliduj</string>
+    <string name="action_settings">Ustawienia</string>
+
+    <!-- O aplikacji -->
+    <string name="about_version">Wersja %s</string>
+    <string name="about_description">Aplikacja kopiuje UID karty NFC do taga UHF RFID.\n\nPrzebieg: przyłóż kartę NFC, aby odczytać jej UID, następnie czytnik UHF sprawdza, czy w zasięgu jest dokładnie jeden tag, a po potwierdzeniu UID zostaje zapisany w banku EPC taga i tag jest blokowany hasłem.\n\nZakładka Skanuj służy do inwentaryzacji tagów zakodowanych tą aplikacją.</string>
+    <string name="about_epc_format">Format EPC (96 bit):\nPC = 0x3100 (ISO, poza GS1)\nbajt 0: 0x4E (‚N’)\nbajt 1: długość UID\nbajty 2–11: UID + dopełnienie zerami</string>
+    <string name="reader_disconnected">Usługa RFID: rozłączona</string>
+    <string name="reader_connecting">Usługa RFID: łączenie…</string>
+    <string name="reader_none">Czytnik RFID: nie wykryto</string>
+    <string name="reader_ready">Czytnik RFID: %s</string>
+
+    <!-- NFC -->
+    <string name="nfc_unavailable">To urządzenie nie ma NFC.</string>
+    <string name="nfc_disabled">NFC jest wyłączone — włącz je w ustawieniach systemu.</string>
+    <string name="nfc_wait_for_card">Przyłóż kartę NFC…</string>
+    <string name="nfc_card_uid">UID karty: %s</string>
+    <string name="nfc_random_uid">Ta karta zwraca losowy identyfikator przy każdym przyłożeniu — nie można jej użyć.</string>
+    <plurals name="nfc_unsupported_uid">
+        <item quantity="one">Nieobsługiwana długość identyfikatora karty (%d bajt).</item>
+        <item quantity="few">Nieobsługiwana długość identyfikatora karty (%d bajty).</item>
+        <item quantity="many">Nieobsługiwana długość identyfikatora karty (%d bajtów).</item>
+        <item quantity="other">Nieobsługiwana długość identyfikatora karty (%d bajtu).</item>
+    </plurals>
+
+    <!-- Walidacja oryginalności NXP -->
+    <string name="originality_verified">Oryginalność NXP: zweryfikowano (%s)</string>
+    <string name="originality_invalid">Oryginalność NXP: NIEPRAWIDŁOWY podpis — możliwa podróbka</string>
+    <string name="originality_not_supported">Oryginalność NXP: brak podpisu (nie dotyczy)</string>
+    <string name="originality_read_error">Oryginalność NXP: nie udało się odczytać podpisu — przytrzymaj kartę dłużej</string>
+    <string name="originality_dialog_title">Nieprawidłowy podpis NXP</string>
+    <string name="originality_dialog_message">Podpis oryginalności karty nie pasuje do żadnego znanego klucza publicznego NXP. Ta karta może być podrobionym chipem. Kontynuować kodowanie mimo to?</string>
+    <string name="originality_dialog_continue">Kontynuuj</string>
+    <string name="originality_dialog_cancel">Anuluj</string>
+
+    <!-- Kodowanie: kroki -->
+    <string name="encode_step1_title">1. Karta NFC</string>
+    <string name="encode_step2_title">2. Kontrola tagów UHF</string>
+    <string name="encode_step3_title">3. Zapis EPC</string>
+    <string name="uhf_scanning">Skanowanie… tagów w zasięgu: %d</string>
+    <string name="uhf_no_tag">Nie znaleziono taga UHF w zasięgu.</string>
+    <plurals name="uhf_multiple_tags">
+        <item quantity="one">Znaleziono %d tag — zostaw dokładnie jeden tag w zasięgu.</item>
+        <item quantity="few">Znaleziono %d tagi — zostaw dokładnie jeden tag w zasięgu.</item>
+        <item quantity="many">Znaleziono %d tagów — zostaw dokładnie jeden tag w zasięgu.</item>
+        <item quantity="other">Znaleziono %d taga — zostaw dokładnie jeden tag w zasięgu.</item>
+    </plurals>
+    <string name="uhf_one_tag">Dokładnie jeden tag w zasięgu.</string>
+    <string name="uhf_failed">Skan UHF nie powiódł się.</string>
+    <string name="confirm_current_epc">Obecny EPC: %1$s (RSSI %2$s)</string>
+    <string name="confirm_new_epc">Nowy EPC: %s</string>
+    <string name="confirm_overwrite_warning">Uwaga: ten tag jest już zakodowany UID-em %s. Zapis nadpisze go.</string>
+    <string name="encode_write">Zapisz tag</string>
+    <string name="encode_write_anyway">Zapisz ponownie mimo to</string>
+    <string name="encode_rescan">Skanuj ponownie</string>
+    <string name="encode_reset">Od nowa</string>
+    <string name="encode_continuous">Tryb ciągły (następna karta po sukcesie)</string>
+    <string name="step_targeting">Celowanie w tag…</string>
+    <string name="step_writing_epc">Zapisywanie EPC…</string>
+    <string name="step_writing_passwords">Zapisywanie haseł…</string>
+    <string name="step_locking">Blokowanie taga…</string>
+    <string name="step_verifying">Weryfikacja…</string>
+    <string name="result_success">Gotowe — karta %1$s zakodowana.\nEPC: %2$s</string>
+    <string name="result_already_encoded">Ten tag jest już zakodowany UID-em %s — ponowny zapis nie jest wymagany.</string>
+
+    <!-- Błędy -->
+    <string name="error_passwords_not_configured">Blokowanie jest włączone, ale hasła nie są skonfigurowane — ustaw je w Ustawieniach.</string>
+    <string name="error_reader_not_ready">Czytnik UHF nie jest gotowy.</string>
+    <string name="error_service_lost">Utracono połączenie z usługą RFID.</string>
+    <string name="error_timeout">Czytnik nie odpowiada (timeout).</string>
+    <string name="error_tag_gone">Tag opuścił pole w trakcie operacji — przytrzymaj go blisko i zeskanuj ponownie.</string>
+    <string name="error_access_failed">Brak dostępu — tag jest zablokowany innym hasłem.</string>
+    <string name="error_write_failed">Zapis nie powiódł się — tag jest zablokowany innym hasłem albo opuścił pole podczas zapisu.</string>
+    <string name="error_reader_code">Błąd czytnika 0x%1$02X %2$s</string>
+    <string name="error_unknown">Nieznany błąd.</string>
+    <string name="error_interrupted">Operacja została przerwana — zeskanuj kartę ponownie, aby dokończyć kodowanie.</string>
+    <string name="error_duplicate_tag">Tag ze starym EPC nadal jest w zasięgu — prawdopodobnie były dwa identyczne tagi. Odsuń jeden i zeskanuj ponownie.</string>
+    <string name="error_verify_failed">Weryfikacja nie powiodła się — odczytana zawartość taga nie zgadza się z oczekiwaną.</string>
+
+    <!-- Skanowanie -->
+    <string name="scan_start">Start</string>
+    <string name="scan_stop">Stop</string>
+    <string name="scan_clear">Wyczyść</string>
+    <string name="scan_share">Udostępnij</string>
+    <string name="scan_counts">Zakodowane tagi: %1$d · pominięte obce: %2$d</string>
+    <string name="scan_item_details">RSSI %1$s · odczyty: %2$d</string>
+    <string name="scan_empty">Brak tagów — naciśnij Start lub przytrzymaj spust.</string>
+    <string name="scan_nothing_to_share">Nie ma jeszcze nic do udostępnienia.</string>
+    <string name="scan_share_title">Udostępnij listę UID</string>
+    <string name="scan_item_missing">brak odczytu UHF — brak taga?</string>
+    <string name="scan_validation_counts">Sparowane: %1$d · brak taga: %2$d</string>
+
+    <!-- Zakładka Waliduj -->
+    <string name="validate_idle">Przyłóż kartę NFC,\naby sprawdzić jej tag UHF</string>
+    <string name="validate_searching">Szukanie taga…</string>
+    <string name="validate_matched">SPAROWANE</string>
+    <string name="validate_not_found">BRAK TAGA</string>
+    <string name="validate_matched_detail">Tag odpowiedział (RSSI %s)</string>
+    <string name="validate_not_found_detail">Brak taga z EPC tej karty w zasięgu.</string>
+
+    <!-- Ustawienia -->
+    <string name="settings_title">Ustawienia</string>
+    <string name="settings_close">Zamknij</string>
+    <string name="settings_access_pwd">Hasło dostępu (8 znaków hex)</string>
+    <string name="settings_kill_pwd">Hasło kill (8 znaków hex)</string>
+    <string name="settings_password_warning">Przechowuj te hasła w bezpiecznym miejscu. Ich utrata uniemożliwi przekodowanie zablokowanych tagów.</string>
+    <string name="settings_password_invalid">Wpisz dokładnie 8 znaków hex</string>
+    <string name="settings_lock_needs_passwords">Blokowanie wymaga ustawienia obu haseł (różnych od zera).</string>
+    <string name="settings_lock">Blokuj tagi po zapisie</string>
+    <string name="settings_scan_seconds">Czas skanowania: %d s</string>
+    <string name="settings_read_power">Moc odczytu: %d dBm</string>
+    <string name="settings_write_power">Moc zapisu: %d dBm</string>
+    <string name="settings_power_hint">Mała moc odczytu zmniejsza zasięg i ułatwia izolację pojedynczego taga; zapis celuje w konkretny EPC, więc może użyć większej mocy. Moduły wewnętrzne przyjmują 18–26 dBm.</string>
+    <string name="settings_save">Zapisz</string>
+</resources>

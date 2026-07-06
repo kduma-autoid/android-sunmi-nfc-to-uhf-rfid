@@ -1,3 +1,118 @@
 <resources>
     <string name="app_name">NFC to RFID</string>
+
+    <!-- Navigation -->
+    <string name="tab_about">About</string>
+    <string name="tab_encode">Encode</string>
+    <string name="tab_scan">Scan</string>
+    <string name="tab_validate">Validate</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- About -->
+    <string name="about_version">Version %s</string>
+    <string name="about_description">This app copies the UID of an NFC card onto a UHF RFID tag.\n\nWorkflow: tap an NFC card to read its UID, then the UHF reader checks that exactly one tag is in range, and after confirmation the UID is written into the tag’s EPC bank and the tag is password-locked.\n\nUse the Scan tab to inventory tags encoded by this app.</string>
+    <string name="about_epc_format">EPC format (96 bit):\nPC = 0x3100 (ISO, non-GS1)\nbyte 0: 0x4E (‘N’)\nbyte 1: UID length\nbytes 2–11: UID + zero padding</string>
+    <string name="reader_disconnected">RFID service: disconnected</string>
+    <string name="reader_connecting">RFID service: connecting…</string>
+    <string name="reader_none">RFID reader: not detected</string>
+    <string name="reader_ready">RFID reader: %s</string>
+
+    <!-- NFC -->
+    <string name="nfc_unavailable">This device has no NFC.</string>
+    <string name="nfc_disabled">NFC is turned off — enable it in system settings.</string>
+    <string name="nfc_wait_for_card">Tap an NFC card…</string>
+    <string name="nfc_card_uid">Card UID: %s</string>
+    <string name="nfc_random_uid">This card reports a random ID on every tap — it cannot be used.</string>
+    <plurals name="nfc_unsupported_uid">
+        <item quantity="one">Unsupported card ID length (%d byte).</item>
+        <item quantity="other">Unsupported card ID length (%d bytes).</item>
+    </plurals>
+
+    <!-- NXP originality check -->
+    <string name="originality_verified">NXP originality: verified (%s)</string>
+    <string name="originality_invalid">NXP originality: INVALID signature — possible counterfeit</string>
+    <string name="originality_not_supported">NXP originality: no signature (not applicable)</string>
+    <string name="originality_read_error">NXP originality: could not read signature — hold the card longer</string>
+    <string name="originality_dialog_title">Invalid NXP signature</string>
+    <string name="originality_dialog_message">The card’s originality signature does not match any known NXP public key. This card may be a counterfeit chip. Continue encoding anyway?</string>
+    <string name="originality_dialog_continue">Continue</string>
+    <string name="originality_dialog_cancel">Cancel</string>
+
+    <!-- Encode: steps -->
+    <string name="encode_step1_title">1. NFC card</string>
+    <string name="encode_step2_title">2. UHF tag check</string>
+    <string name="encode_step3_title">3. Write EPC</string>
+    <string name="uhf_scanning">Scanning… tags in range: %d</string>
+    <string name="uhf_no_tag">No UHF tag found in range.</string>
+    <plurals name="uhf_multiple_tags">
+        <item quantity="one">Found %d tag — leave exactly one tag in range.</item>
+        <item quantity="other">Found %d tags — leave exactly one tag in range.</item>
+    </plurals>
+    <string name="uhf_one_tag">Exactly one tag in range.</string>
+    <string name="uhf_failed">UHF scan failed.</string>
+    <string name="confirm_current_epc">Current EPC: %1$s (RSSI %2$s)</string>
+    <string name="confirm_new_epc">New EPC: %s</string>
+    <string name="confirm_overwrite_warning">Warning: this tag is already encoded with UID %s. Writing will overwrite it.</string>
+    <string name="encode_write">Write tag</string>
+    <string name="encode_write_anyway">Write again anyway</string>
+    <string name="encode_rescan">Scan again</string>
+    <string name="encode_reset">Start over</string>
+    <string name="encode_continuous">Continuous mode (next card after success)</string>
+    <string name="step_targeting">Targeting tag…</string>
+    <string name="step_writing_epc">Writing EPC…</string>
+    <string name="step_writing_passwords">Writing passwords…</string>
+    <string name="step_locking">Locking tag…</string>
+    <string name="step_verifying">Verifying…</string>
+    <string name="result_success">Done — card %1$s encoded.\nEPC: %2$s</string>
+    <string name="result_already_encoded">This tag is already encoded with UID %s — re-writing is not required.</string>
+
+    <!-- Errors -->
+    <string name="error_passwords_not_configured">Locking is enabled but passwords are not configured — set them in Settings.</string>
+    <string name="error_reader_not_ready">UHF reader is not ready.</string>
+    <string name="error_service_lost">Connection to the RFID service was lost.</string>
+    <string name="error_timeout">The reader did not respond (timeout).</string>
+    <string name="error_tag_gone">The tag left the field during the operation — hold it close and scan again.</string>
+    <string name="error_access_failed">Access failed — the tag is locked with a different password.</string>
+    <string name="error_write_failed">Write failed — the tag is locked with a different password or left the field during writing.</string>
+    <string name="error_reader_code">Reader error 0x%1$02X %2$s</string>
+    <string name="error_unknown">Unknown error.</string>
+    <string name="error_interrupted">The operation was interrupted — scan the card again to finish encoding.</string>
+    <string name="error_duplicate_tag">A tag with the old EPC is still in range — there were probably two identical tags. Remove one and scan again.</string>
+    <string name="error_verify_failed">Verification failed — the tag did not read back with the expected content.</string>
+
+    <!-- Scan tab -->
+    <string name="scan_start">Start scan</string>
+    <string name="scan_stop">Stop scan</string>
+    <string name="scan_clear">Clear</string>
+    <string name="scan_share">Share</string>
+    <string name="scan_counts">Encoded tags: %1$d · foreign tags skipped: %2$d</string>
+    <string name="scan_item_details">RSSI %1$s · reads: %2$d</string>
+    <string name="scan_empty">No tags yet — press Start or hold the trigger.</string>
+    <string name="scan_nothing_to_share">Nothing to share yet.</string>
+    <string name="scan_share_title">Share UID list</string>
+    <string name="scan_item_missing">no UHF read — tag missing?</string>
+    <string name="scan_validation_counts">Paired: %1$d · missing tag: %2$d</string>
+
+    <!-- Validate tab -->
+    <string name="validate_idle">Tap an NFC card\nto check its UHF tag</string>
+    <string name="validate_searching">Searching for tag…</string>
+    <string name="validate_matched">PAIRED</string>
+    <string name="validate_not_found">TAG MISSING</string>
+    <string name="validate_matched_detail">Tag responded (RSSI %s)</string>
+    <string name="validate_not_found_detail">No tag with this card’s EPC in range.</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_close">Close</string>
+    <string name="settings_access_pwd">Access password (8 hex digits)</string>
+    <string name="settings_kill_pwd">Kill password (8 hex digits)</string>
+    <string name="settings_password_warning">Store these passwords safely. If you lose them, locked tags cannot be re-encoded.</string>
+    <string name="settings_password_invalid">Enter exactly 8 hex digits</string>
+    <string name="settings_lock_needs_passwords">Locking requires both passwords set and non-zero.</string>
+    <string name="settings_lock">Lock tags after writing</string>
+    <string name="settings_scan_seconds">Scan duration: %d s</string>
+    <string name="settings_read_power">Read power: %d dBm</string>
+    <string name="settings_write_power">Write power: %d dBm</string>
+    <string name="settings_power_hint">Low read power shrinks the field and makes isolating a single tag easier; writes target one EPC, so they can use more power. Internal modules accept 18–26 dBm.</string>
+    <string name="settings_save">Save</string>
 </resources>
