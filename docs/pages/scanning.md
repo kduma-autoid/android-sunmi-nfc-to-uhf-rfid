@@ -6,8 +6,10 @@ related: [validating, encoding]
 ---
 # Bulk inventory and validation
 
-Press **Start scan** or hold the device's **trigger key** to run a continuous UHF
-inventory on the **Scan** tab.
+Press **Start scan** or hold the **trigger key** to run a continuous UHF inventory
+on the **Scan** tab. The trigger works on every [reader backend](readers): the Sunmi
+RFID trigger key as well as the built-in trigger of Chainway R2/R3 handhelds over
+USB or Bluetooth.
 
 Tags encoded by this app are listed with their decoded UID, live RSSI and read count;
 foreign tags are only counted, not listed. The list accumulates between scans —

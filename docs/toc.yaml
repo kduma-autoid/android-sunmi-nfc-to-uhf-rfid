@@ -1,6 +1,7 @@
 - page: index
   children:
     - page: requirements
+    - page: readers
     - page: installation
 - page: using-the-app
   children:

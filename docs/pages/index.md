@@ -1,17 +1,21 @@
 ---
 title: NFC to RFID
-keywords: [NFC, RFID, UHF, Sunmi, EPC, overview, introduction, shadow tag]
+keywords: [NFC, RFID, UHF, Sunmi, Chainway, EPC, overview, introduction, shadow tag]
 categories: [basics]
-related: [requirements, installation, using-the-app]
+related: [requirements, readers, installation, using-the-app]
 ---
 # NFC to RFID
 
 ![NFC to RFID — encode NFC card UIDs onto UHF RFID tags](assets/banner-large.png)
 
-**NFC to RFID** is an Android app for Sunmi handheld terminals (L2k / L2s / L2H / L3)
-equipped with a UHF RFID module. It copies the UID of an NFC card onto a UHF EPC Gen2
-tag, so that the tag becomes a radio-readable "shadow" of the card: a UHF scan from a
-distance returns the same identifier that the card reports over NFC.
+**NFC to RFID** is an Android app that copies the UID of an NFC card onto a UHF EPC
+Gen2 tag, so that the tag becomes a radio-readable "shadow" of the card: a UHF scan
+from a distance returns the same identifier that the card reports over NFC.
+
+It runs on Sunmi handheld terminals (L2k / L2s / L2H / L3) with a built-in UHF RFID
+module, and on any NFC-capable Android device paired with an external Chainway
+reader (e.g. R2 / R3) over USB or Bluetooth — see [Supported readers](readers).
+Tested with Chainway R2, Chainway R3, Sunmi L2k and Sunmi L2s RFID.
 
 Typical use case: assets or badges carry both an NFC card (short-range, secure
 identification) and a UHF label (long-range, bulk inventory). This app encodes the

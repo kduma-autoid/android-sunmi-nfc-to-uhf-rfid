@@ -36,5 +36,15 @@ asks whether to continue. See [NXP originality check](nxp-originality).
 
 ## RFID reader: not detected (About tab)
 
-UHF module not present/attached, or the Sunmi scanner service is unavailable. See
-[Requirements](requirements).
+No reader answered during auto-detection. Depending on the backend:
+
+- **Sunmi** — UHF module not present/attached, or the Sunmi scanner service is
+  unavailable;
+- **Chainway USB** — cable not attached, or the USB permission prompt was declined
+  (re-attach the reader to get the prompt again);
+- **Chainway Bluetooth** — no reader selected yet, the reader is out of range /
+  powered off, or the Bluetooth permission was declined.
+
+See [Supported readers](readers) and [Requirements](requirements). Selecting the
+backend explicitly in [Settings](settings) shows the connection state for that
+specific reader.
