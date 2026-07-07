@@ -1,6 +1,7 @@
 id = "nfc-to-rfid"
 title = "NFC to RFID"
-# version is overridden at publish time from gradle.properties (appVersionName)
+# version is overridden at publish time: the site book becomes "latest",
+# release assets carry the tag version (see .github/workflows/docs.yml)
 version = "0.0.2"
 language = "en"
 # explicit, so the version-suffixed release books (nfc-to-rfid-vX.Y.Z) stay in

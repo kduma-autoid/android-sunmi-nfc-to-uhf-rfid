@@ -74,28 +74,35 @@ jobs:
           npm run build
         working-directory: khb-src/viewer-ts
 
-      # The docset is versioned together with the app (workspace-only sed,
-      # never committed): the version comes from gradle.properties, so the
-      # published book always matches the app version of the built commit.
+      # The current book is published as version "latest" (workspace-only
+      # sed, never committed): non-numeric strings sort above numeric versions
+      # in the viewer's compareVersions, so "latest" is the default pick in
+      # the version switcher, with the released X.Y.Z books (merged below)
+      # selectable behind it.
       - name: Compile the docset
         run: |
           BIN=khb-src/compiler/target/release/khb
-          VER=$(grep '^appVersionName=' gradle.properties | cut -d= -f2)
-          sed -i "s/^version = \".*\"$/version = \"${VER}\"/" docs/docset.toml
-          grep -q "^version = \"${VER}\"$" docs/docset.toml
           mkdir -p out
-          "$BIN" compile docs -o out/nfc-to-rfid.khb
 
-          # Release build: also compile the archive copy with a
-          # version-suffixed docset id and upload it as a release asset.
+          # Release build: first compile the archive copy — the
+          # version-suffixed docset id lets it coexist with the current book,
+          # and the shared `collection` pairs them up as versions.
           TAG="${{ inputs.release-tag }}"
           if [[ -n "$TAG" ]]; then
-            [[ "v$VER" == "$TAG" ]] \
-              || { echo "::error::gradle.properties version ($VER) does not match tag ($TAG)"; exit 1; }
+            VER="${TAG#v}"
+            APP_VER=$(grep '^appVersionName=' gradle.properties | cut -d= -f2)
+            [[ "$APP_VER" == "$VER" ]] \
+              || { echo "::error::gradle.properties version ($APP_VER) does not match tag ($TAG)"; exit 1; }
             sed -i "s/^id = \"nfc-to-rfid\"$/id = \"nfc-to-rfid-v${VER}\"/" docs/docset.toml
+            sed -i "s/^version = \".*\"$/version = \"${VER}\"/" docs/docset.toml
             grep -q "^id = \"nfc-to-rfid-v${VER}\"$" docs/docset.toml
             "$BIN" compile docs -o "out/nfc-to-rfid-v${VER}.khb"
+            git checkout -- docs/docset.toml
           fi
+
+          sed -i 's/^version = ".*"$/version = "latest"/' docs/docset.toml
+          grep -q '^version = "latest"$' docs/docset.toml
+          "$BIN" compile docs -o out/nfc-to-rfid.khb
 
       - name: Upload docset artifact
         if: inputs.release-tag != ''
@@ -105,18 +112,48 @@ jobs:
           path: out/nfc-to-rfid-v*.khb
           if-no-files-found: error
 
-      # The bundled profile locks the dist (the site serves exactly this book)
-      # and keeps the PWA off, so every deploy is picked up immediately.
-      # --home lands cold starts on the docs overview instead of Search;
-      # --llms also emits llms.txt / llms-full.txt / per-page md for AI use.
+      # The bundled profile locks the dist (the site serves exactly the books
+      # packed here) and keeps the PWA off, so every deploy is picked up
+      # immediately. --home lands cold starts on the docs overview instead of
+      # Search; --llms also emits llms.txt / llms-full.txt / per-page md for
+      # AI use. --stream marks the books for page-level streaming: Pages
+      # honours HTTP Range, so the viewer reads only the pages it touches
+      # (and falls back to a whole fetch where Range isn't available).
       - name: Pack the distribution
         run: |
           khb-src/compiler/target/release/khb pack --profile bundled \
             --viewer khb-src/viewer-ts/dist \
             --docset out/nfc-to-rfid.khb \
             --home nfc-to-rfid:index \
+            --stream \
             --llms \
             -o publish
+
+      - name: Merge released doc versions
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Every release since docs.yml exists carries an
+          # nfc-to-rfid-vX.Y.Z.khb asset; all of them are merged into the
+          # site, so every released version stays selectable in the viewer's
+          # version switcher behind "latest". --limit is explicit because gh
+          # defaults to a silent 30.
+          TAGS=$(gh release list -R "${{ github.repository }}" --limit 1000 --json tagName --jq '.[].tagName' \
+            | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' || true)
+          mkdir -p old
+          for TAG in $TAGS; do
+            gh release download "$TAG" -R "${{ github.repository }}" \
+              --pattern 'nfc-to-rfid-v*.khb' -D "old/$TAG" || true
+          done
+          # On a release run the just-built archive isn't attached to the
+          # release yet (that happens in the release-asset job) — patch the
+          # local copy last so the fresh build wins.
+          shopt -s nullglob
+          for F in old/*/*.khb out/nfc-to-rfid-v*.khb; do
+            echo "patching in $F"
+            khb-src/compiler/target/release/khb patch publish --docset "$F" --stream
+          done
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
