@@ -12,6 +12,8 @@
     <string name="about_version">Wersja %s</string>
     <string name="about_description">Aplikacja kopiuje UID karty NFC do taga UHF RFID.\n\nPrzebieg: przyłóż kartę NFC, aby odczytać jej UID, następnie czytnik UHF sprawdza, czy w zasięgu jest dokładnie jeden tag, a po potwierdzeniu UID zostaje zapisany w banku EPC taga i tag jest blokowany hasłem.\n\nZakładka Skanuj służy do inwentaryzacji tagów zakodowanych tą aplikacją.</string>
     <string name="about_epc_format">Format EPC (96 bit):\nPC = 0x3100 (ISO, poza GS1)\nbajt 0: 0x4E (‚N’)\nbajt 1: długość UID\nbajty 2–11: UID + dopełnienie zerami</string>
+    <string name="about_documentation">Dokumentacja</string>
+    <string name="about_repository">GitHub</string>
     <string name="reader_disconnected">Usługa RFID: rozłączona</string>
     <string name="reader_connecting">Usługa RFID: łączenie…</string>
     <string name="reader_none">Czytnik RFID: nie wykryto</string>

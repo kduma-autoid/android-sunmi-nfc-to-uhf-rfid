@@ -1,9 +1,13 @@
 package dev.duma.android.nfctorfid.about
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -37,6 +41,9 @@ class AboutFragment : Fragment() {
         }.getOrNull() ?: "?"
         binding.tvVersion.text = getString(R.string.about_version, versionName)
 
+        binding.btnDocumentation.setOnClickListener { openUrl(R.string.url_documentation) }
+        binding.btnRepository.setOnClickListener { openUrl(R.string.url_repository) }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 main.uhf.state.collect { state ->
@@ -55,6 +62,16 @@ class AboutFragment : Fragment() {
                     }
                 }
             }
+        }
+    }
+
+    private fun openUrl(@StringRes urlRes: Int) {
+        val url = getString(urlRes)
+        runCatching {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+        }.onFailure {
+            // No browser on this device — at least surface the address.
+            Toast.makeText(requireContext(), url, Toast.LENGTH_LONG).show()
         }
     }
 

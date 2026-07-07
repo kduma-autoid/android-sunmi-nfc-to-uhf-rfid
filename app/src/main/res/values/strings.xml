@@ -12,6 +12,10 @@
     <string name="about_version">Version %s</string>
     <string name="about_description">This app copies the UID of an NFC card onto a UHF RFID tag.\n\nWorkflow: tap an NFC card to read its UID, then the UHF reader checks that exactly one tag is in range, and after confirmation the UID is written into the tag’s EPC bank and the tag is password-locked.\n\nUse the Scan tab to inventory tags encoded by this app.</string>
     <string name="about_epc_format">EPC format (96 bit):\nPC = 0x3100 (ISO, non-GS1)\nbyte 0: 0x4E (‘N’)\nbyte 1: UID length\nbytes 2–11: UID + zero padding</string>
+    <string name="about_documentation">Documentation</string>
+    <string name="about_repository">GitHub</string>
+    <string name="url_documentation" translatable="false">https://kduma-autoid.github.io/android-sunmi-nfc-to-uhf-rfid/</string>
+    <string name="url_repository" translatable="false">https://github.com/kduma-autoid/android-sunmi-nfc-to-uhf-rfid</string>
     <string name="reader_disconnected">RFID service: disconnected</string>
     <string name="reader_connecting">RFID service: connecting…</string>
     <string name="reader_none">RFID reader: not detected</string>
