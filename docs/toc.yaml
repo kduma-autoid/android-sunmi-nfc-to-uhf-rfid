@@ -1,0 +1,16 @@
+- page: index
+  children:
+    - page: requirements
+    - page: installation
+- page: using-the-app
+  children:
+    - page: encoding
+    - page: scanning
+    - page: validating
+    - page: settings
+- title: Reference
+  children:
+    - page: epc-format
+    - page: nxp-originality
+    - page: troubleshooting
+    - page: development

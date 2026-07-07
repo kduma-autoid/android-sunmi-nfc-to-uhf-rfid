@@ -1,0 +1,9 @@
+id = "nfc-to-rfid"
+title = "NFC to RFID"
+# version is overridden at publish time from gradle.properties (appVersionName)
+version = "0.0.2"
+language = "en"
+# explicit, so the version-suffixed release books (nfc-to-rfid-vX.Y.Z) stay in
+# the same family and pair up in the viewer's version switcher
+collection = "nfc-to-rfid"
+collection_title = "NFC to RFID"

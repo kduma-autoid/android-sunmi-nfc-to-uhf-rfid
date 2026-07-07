@@ -6,7 +6,7 @@ returns the same identifier the card reports over NFC.
 
 | Encode | Scan & validate | Validate one-by-one |
 |---|---|---|
-| ![Encode](screenshots/encode-confirm-write.png) | ![Scan](screenshots/scan-validation-paired.png) | ![Validate](screenshots/validate-paired.png) |
+| ![Encode](docs/assets/encode-confirm-write.png) | ![Scan](docs/assets/scan-validation-paired.png) | ![Validate](docs/assets/validate-paired.png) |
 
 ## Features
 
@@ -18,7 +18,8 @@ returns the same identifier the card reports over NFC.
 - **NXP originality check** — the card's silicon is verified against NXP public keys on every tap
 - Sound + vibration + full-screen green/red flash feedback; English and Polish UI
 
-Full manual, encoding format details and troubleshooting: **[docs.md](docs.md)**
+Full manual, encoding format details and troubleshooting:
+**<https://kduma-autoid.github.io/android-sunmi-nfc-to-uhf-rfid/>** (source in [docs/](docs/))
 
 ## Getting the app
 
@@ -44,6 +45,8 @@ or built-in UHF module.
   or as part of a release
 - [release.yml](.github/workflows/release.yml) — version bump, `vX.Y.Z` tag, GitHub Release with
   the APK attached (run manually from the Actions tab)
+- [docs.yml](.github/workflows/docs.yml) — compiles [docs/](docs/) into a KD Help Book docset and
+  publishes it to GitHub Pages on every docs change
 
 ## License
 

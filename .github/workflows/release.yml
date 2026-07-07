@@ -79,3 +79,15 @@ jobs:
     with:
       release-tag: ${{ needs.prepare.outputs.tag }}
     secrets: inherit
+
+  # Attach the compiled docs (.khb) to the release and republish the
+  # documentation site, so its version label follows the app version.
+  docs:
+    needs: prepare
+    permissions:
+      contents: write # gh release upload
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/docs.yml
+    with:
+      release-tag: ${{ needs.prepare.outputs.tag }}
