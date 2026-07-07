@@ -18,7 +18,7 @@ identification) and a UHF label (long-range, bulk inventory). This app encodes t
 labels, keeps them password-locked against tampering, and verifies that card–tag
 pairs match.
 
-![About tab](assets/about.png)
+![About tab](assets/about.png#w=300&h=75vh)
 
 ## What the app does
 

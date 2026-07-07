@@ -13,17 +13,17 @@ underneath. The screen is immediately ready for the next card.
 
 **Idle** — waiting for a card:
 
-![Validate tab, idle](assets/validate-idle.png)
+![Validate tab, idle](assets/validate-idle.png#w=300&h=75vh)
 
 **Searching** — the reader looks for the card's EPC within the configured
 [scan duration](settings):
 
-![Searching for the tag](assets/validate-searching.png)
+![Searching for the tag](assets/validate-searching.png#w=300&h=75vh)
 
 **Paired** — a tag carrying the card's EPC answered; its RSSI is shown:
 
-![Tag paired](assets/validate-paired.png)
+![Tag paired](assets/validate-paired.png#w=300&h=75vh)
 
 **Missing** — no tag with that EPC in range:
 
-![Tag missing](assets/validate-tag-missing.png)
+![Tag missing](assets/validate-tag-missing.png#w=300&h=75vh)
