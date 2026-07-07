@@ -43,6 +43,23 @@ Signalled with a green flash and a success tone.
 
 ![Already encoded](assets/encode-already-encoded.png)
 Shown when the tag already carries this card's UID.
+
+![Invalid signature](assets/encode-invalid-signature.png)
+Shown when the card's NXP originality signature does not validate.
+~~~
+
+~~~gallery w=210 scroll
+![1. Waiting for card (tablet)](assets/encode-wait-for-card_l.png)
+
+![2. UHF check (tablet)](assets/encode-uhf-scan_l.png)
+
+![3. Confirmation (tablet)](assets/encode-confirm-write_l.png)
+
+![4. Success (tablet)](assets/encode-success_l.png)
+
+![Already encoded (tablet)](assets/encode-already-encoded_l.png)
+
+![Invalid signature (tablet)](assets/encode-invalid-signature_l.png)
 ~~~
 
 ## Continuous mode

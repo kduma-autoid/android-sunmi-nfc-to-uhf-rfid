@@ -8,7 +8,12 @@ related: [encoding, troubleshooting]
 
 Open the settings with the gear icon in the top bar.
 
-![Settings](assets/settings.png#w=300&h=75vh)
+
+~~~gallery
+![Settings (top)](assets/settings.png)
+![Settings (bottom)](assets/settings-bottom.png)
+![Settings (tablet)](assets/settings_l.png)
+~~~
 
 | Setting | Default | Description |
 |---|---|---|

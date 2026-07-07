@@ -23,3 +23,13 @@ A tag answered — its RSSI is shown.
 ![Missing](assets/validate-tag-missing.png)
 No tag with this card's EPC in range.
 ~~~
+
+~~~gallery w=180 scroll
+![Idle (tablet)](assets/validate-idle_l.png)
+
+![Searching (tablet)](assets/validate-searching_l.png)
+
+![Paired (tablet)](assets/validate-paired_l.png)
+
+![Missing (tablet)](assets/validate-tag-missing_l.png)
+~~~

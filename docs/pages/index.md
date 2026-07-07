@@ -20,6 +20,8 @@ pairs match.
 
 ![About tab](assets/about.png#w=300&h=75vh)
 
+![About tab (tablet)](assets/about_l.png#w=300&h=75vh)
+
 ## What the app does
 
 - **Encode** — reads an NFC card's UID, checks that exactly *one* UHF tag is in

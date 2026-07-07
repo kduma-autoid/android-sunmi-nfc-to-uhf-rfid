@@ -34,3 +34,13 @@ The card's tag was seen over UHF — the entry turns **green**.
 ![Missing](assets/scan-validation-missing.png)
 No matching UHF read — pinned **red** at the top.
 ~~~
+
+~~~gallery w=180 scroll
+![Empty (tablet)](assets/scan-empty_l.png)
+
+![Inventory (tablet)](assets/scan-tag-list_l.png)
+
+![Paired (tablet)](assets/scan-validation-paired_l.png)
+
+![Missing (tablet)](assets/scan-validation-missing_l.png)
+~~~
