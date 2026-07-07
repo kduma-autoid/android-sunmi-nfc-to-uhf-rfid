@@ -127,6 +127,7 @@ jobs:
             --home nfc-to-rfid:index \
             --stream \
             --llms \
+            --base-url "https://kduma-autoid.github.io/android-sunmi-nfc-to-uhf-rfid/" \
             -o publish
 
       - name: Merge released doc versions

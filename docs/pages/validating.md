@@ -11,6 +11,15 @@ card's EPC and shows a full-screen verdict: green **PAIRED** (with the tag's RSS
 red **TAG MISSING**. The card's [NXP originality](nxp-originality) status is shown
 underneath. The screen is immediately ready for the next card.
 
-| Idle | Searching | Paired | Missing |
-|---|---|---|---|
-| ![Validate tab, idle](assets/validate-idle.png#w=160) | ![Searching for the tag](assets/validate-searching.png#w=160) | ![Tag paired](assets/validate-paired.png#w=160) | ![Tag missing](assets/validate-tag-missing.png#w=160) |
+~~~gallery w=180 scroll
+![Idle](assets/validate-idle.png)
+
+![Searching](assets/validate-searching.png)
+The reader looks for the card's EPC within the configured scan duration.
+
+![Paired](assets/validate-paired.png)
+A tag answered — its RSSI is shown.
+
+![Missing](assets/validate-tag-missing.png)
+No tag with this card's EPC in range.
+~~~

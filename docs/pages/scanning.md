@@ -23,6 +23,14 @@ Tapping NFC cards while on this tab validates card–tag pairs:
 - Card without a matching UHF read → **red** entry pinned to the top (*missing tag*),
   and it turns green automatically once a scan reads the tag.
 
-| Empty | Inventory | Paired (green) | Missing (red) |
-|---|---|---|---|
-| ![Scan tab, empty](assets/scan-empty.png#w=160) | ![One tag inventoried](assets/scan-tag-list.png#w=160) | ![Card paired with tag](assets/scan-validation-paired.png#w=160) | ![Card without a tag](assets/scan-validation-missing.png#w=160) |
+~~~gallery w=180 scroll
+![Empty](assets/scan-empty.png)
+
+![Inventory](assets/scan-tag-list.png)
+
+![Paired](assets/scan-validation-paired.png)
+The card's tag was seen over UHF — the entry turns **green**.
+
+![Missing](assets/scan-validation-missing.png)
+No matching UHF read — pinned **red** at the top.
+~~~

@@ -31,13 +31,19 @@ The app writes the EPC, sets the passwords, locks the tag (when locking is enabl
 and verifies the result by reading the tag back. Success is signalled with a green
 flash.
 
-| 1. Waiting for card | 2. UHF check | 3. Confirmation |
-|---|---|---|
-| ![Waiting for an NFC card](assets/encode-wait-for-card.png#w=210) | ![UHF scan in progress](assets/encode-uhf-scan.png#w=210) | ![Write confirmation](assets/encode-confirm-write.png#w=210) |
+~~~gallery w=210 scroll
+![1. Waiting for card](assets/encode-wait-for-card.png)
 
-| 4. Success | Already encoded |
-|---|---|
-| ![Encoding finished](assets/encode-success.png#w=210) | ![Tag already encoded](assets/encode-already-encoded.png#w=210) |
+![2. UHF check](assets/encode-uhf-scan.png)
+
+![3. Confirmation](assets/encode-confirm-write.png)
+
+![4. Success](assets/encode-success.png)
+Signalled with a green flash and a success tone.
+
+![Already encoded](assets/encode-already-encoded.png)
+Shown when the tag already carries this card's UID.
+~~~
 
 ## Continuous mode
 
