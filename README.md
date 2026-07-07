@@ -1,6 +1,7 @@
 # NFC to RFID
 
-Android app for Sunmi handhelds (L2k / L2s / L2H / L3) with a UHF RFID module.
+Android app for Sunmi handhelds with UHF RFID — built-in (L2s RFID, L3) or the UHF
+trigger handle (L2k / L2s / L2H / L2s Pro) — and for Chainway USB/Bluetooth readers.
 It copies the UID of an NFC card onto a UHF EPC Gen2 tag — so a long-range UHF scan
 returns the same identifier the card reports over NFC.
 

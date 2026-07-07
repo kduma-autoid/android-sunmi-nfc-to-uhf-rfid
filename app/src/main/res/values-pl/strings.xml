@@ -111,7 +111,7 @@
     <!-- Wybór czytnika -->
     <string name="settings_backend">Czytnik UHF</string>
     <string name="backend_auto">Automatycznie</string>
-    <string name="backend_sunmi">Sunmi (wbudowany)</string>
+    <string name="backend_sunmi">Sunmi</string>
     <string name="backend_chainway_usb">Chainway USB</string>
     <string name="backend_chainway_ble">Chainway Bluetooth</string>
     <string name="settings_ble_none">Czytnik Bluetooth: nie wybrano</string>

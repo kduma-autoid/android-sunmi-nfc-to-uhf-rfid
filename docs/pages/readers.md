@@ -12,7 +12,7 @@ forced in [Settings](settings).
 
 | Backend | Connection | Hardware |
 |---|---|---|
-| Sunmi (built-in) | Sunmi scanner service | UHF module of a Sunmi handheld (UHF R2000 handle, Inner M500, UHF S7100, Inner SIM3500) |
+| Sunmi | Sunmi scanner service | Built-in UHF module of an L2s RFID / L3 (Inner M500, UHF S7100, Inner SIM3500), or the UHF R2000 trigger handle attached to an L2k / L2s / L2H / L2s Pro |
 | Chainway USB | USB cable / dock | Chainway desktop and handheld readers, e.g. R3 |
 | Chainway Bluetooth | Bluetooth LE | Chainway handheld readers, e.g. R2 / R3 |
 

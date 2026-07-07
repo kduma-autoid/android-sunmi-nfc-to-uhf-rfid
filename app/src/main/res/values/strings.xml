@@ -109,7 +109,7 @@
     <!-- Reader backend selection -->
     <string name="settings_backend">UHF reader</string>
     <string name="backend_auto">Auto-detect</string>
-    <string name="backend_sunmi">Sunmi (built-in)</string>
+    <string name="backend_sunmi">Sunmi</string>
     <string name="backend_chainway_usb">Chainway USB</string>
     <string name="backend_chainway_ble">Chainway Bluetooth</string>
     <string name="settings_ble_none">Bluetooth reader: not selected</string>
