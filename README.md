@@ -21,6 +21,19 @@ returns the same identifier the card reports over NFC.
 Full manual, encoding format details and troubleshooting:
 **<https://kduma-autoid.github.io/android-sunmi-nfc-to-uhf-rfid/>** (source in [docs/](docs/))
 
+## Supported UHF readers
+
+All features (encode, scan, validate) work on multiple reader backends, selected in
+settings with auto-detection by default:
+
+- **Sunmi** — the built-in UHF module of Sunmi handhelds
+- **Chainway USB** — e.g. Chainway R3 attached over USB (`RFIDWithUHFUSB`)
+- **Chainway Bluetooth** — e.g. Chainway R2/R3 over BLE (`RFIDWithUHFBLE`)
+
+Auto-detection order: attached USB reader → Sunmi RFID service → previously paired
+Bluetooth reader. Vendor SDKs (`SunmiScannerSdk`, Chainway `DeviceAPI`) are bundled
+in `app/libs/`.
+
 ## Getting the app
 
 The app is available in the **Sunmi App Store** on Sunmi devices (open the link on the device):

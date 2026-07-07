@@ -34,6 +34,65 @@
                 app:tint="?android:attr/textColorPrimary" />
         </LinearLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/settings_backend"
+            android:textAppearance="?attr/textAppearanceSubtitle2" />
+
+        <RadioGroup
+            android:id="@+id/group_backend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/radio_backend_auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/backend_auto" />
+
+            <RadioButton
+                android:id="@+id/radio_backend_sunmi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/backend_sunmi" />
+
+            <RadioButton
+                android:id="@+id/radio_backend_usb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/backend_chainway_usb" />
+
+            <RadioButton
+                android:id="@+id/radio_backend_ble"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/backend_chainway_ble" />
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_ble_device"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/settings_ble_none"
+                android:textAppearance="?attr/textAppearanceBody2" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_ble_choose"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_ble_choose" />
+        </LinearLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layout_access_pwd"
             android:layout_width="match_parent"

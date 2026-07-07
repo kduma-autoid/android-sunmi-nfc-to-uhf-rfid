@@ -108,6 +108,18 @@
     <string name="validate_not_found_detail">Brak taga z EPC tej karty w zasięgu.</string>
 
     <!-- Ustawienia -->
+    <!-- Wybór czytnika -->
+    <string name="settings_backend">Czytnik UHF</string>
+    <string name="backend_auto">Automatycznie</string>
+    <string name="backend_sunmi">Sunmi (wbudowany)</string>
+    <string name="backend_chainway_usb">Chainway USB</string>
+    <string name="backend_chainway_ble">Chainway Bluetooth</string>
+    <string name="settings_ble_none">Czytnik Bluetooth: nie wybrano</string>
+    <string name="settings_ble_choose">Wybierz…</string>
+    <string name="ble_picker_title">Wybierz czytnik Bluetooth</string>
+    <string name="ble_picker_scanning">Wyszukiwanie czytników…</string>
+    <string name="ble_picker_empty">Nie znaleziono jeszcze urządzeń</string>
+    <string name="ble_permission_missing">Do wyszukiwania czytników wymagane jest uprawnienie Bluetooth</string>
     <string name="settings_title">Ustawienia</string>
     <string name="settings_close">Zamknij</string>
     <string name="settings_access_pwd">Hasło dostępu (8 znaków hex)</string>

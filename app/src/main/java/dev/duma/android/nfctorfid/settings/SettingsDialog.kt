@@ -11,6 +11,7 @@ import dev.duma.android.nfctorfid.AppSettings
 import dev.duma.android.nfctorfid.MainActivity
 import dev.duma.android.nfctorfid.R
 import dev.duma.android.nfctorfid.databinding.DialogSettingsBinding
+import dev.duma.android.nfctorfid.uhf.ReaderBackend
 import kotlinx.coroutines.launch
 
 class SettingsDialog : DialogFragment() {
@@ -20,9 +21,21 @@ class SettingsDialog : DialogFragment() {
 
     private val main get() = requireActivity() as MainActivity
 
+    private var bleDeviceChanged = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.Theme_NFCToRFID_FullScreenDialog)
+        parentFragmentManager.setFragmentResultListener(
+            BleDevicePickerDialog.RESULT_KEY,
+            this,
+        ) { _, result ->
+            val settings = main.settings
+            settings.bleMac = result.getString(BleDevicePickerDialog.KEY_MAC)
+            settings.bleName = result.getString(BleDevicePickerDialog.KEY_NAME)
+            bleDeviceChanged = true
+            if (_binding != null) updateBleLabel()
+        }
     }
 
     override fun onStart() {
@@ -46,6 +59,19 @@ class SettingsDialog : DialogFragment() {
         val settings = main.settings
 
         binding.btnClose.setOnClickListener { dismiss() }
+
+        binding.groupBackend.check(
+            when (settings.backend) {
+                ReaderBackend.AUTO -> R.id.radio_backend_auto
+                ReaderBackend.SUNMI -> R.id.radio_backend_sunmi
+                ReaderBackend.CHAINWAY_USB -> R.id.radio_backend_usb
+                ReaderBackend.CHAINWAY_BLE -> R.id.radio_backend_ble
+            }
+        )
+        updateBleLabel()
+        binding.btnBleChoose.setOnClickListener {
+            BleDevicePickerDialog().show(parentFragmentManager, "blePicker")
+        }
 
         binding.inputAccessPwd.setText(settings.accessPasswordHex)
         binding.inputKillPwd.setText(settings.killPasswordHex)
@@ -107,8 +133,32 @@ class SettingsDialog : DialogFragment() {
         settings.readPowerDbm = binding.sliderReadPower.value.toInt()
         settings.writePowerDbm = binding.sliderWritePower.value.toInt()
 
-        main.lifecycleScope.launch { main.uhf.applyPower(settings.readPowerDbm) }
+        val newBackend = when (binding.groupBackend.checkedRadioButtonId) {
+            R.id.radio_backend_sunmi -> ReaderBackend.SUNMI
+            R.id.radio_backend_usb -> ReaderBackend.CHAINWAY_USB
+            R.id.radio_backend_ble -> ReaderBackend.CHAINWAY_BLE
+            else -> ReaderBackend.AUTO
+        }
+        val backendChanged = newBackend != settings.backend || bleDeviceChanged
+        settings.backend = newBackend
+
+        // A backend/device change needs a fresh connection; otherwise just re-apply power.
+        if (backendChanged) {
+            main.reconnectReader()
+        } else {
+            main.lifecycleScope.launch { main.uhf.applyPower(settings.readPowerDbm) }
+        }
         dismiss()
+    }
+
+    private fun updateBleLabel() {
+        val settings = main.settings
+        val mac = settings.bleMac
+        binding.tvBleDevice.text = when {
+            mac == null -> getString(R.string.settings_ble_none)
+            settings.bleName.isNullOrBlank() -> mac
+            else -> "${settings.bleName} ($mac)"
+        }
     }
 
     override fun onDestroyView() {

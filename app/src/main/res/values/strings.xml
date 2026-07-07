@@ -106,6 +106,18 @@
     <string name="validate_not_found_detail">No tag with this card’s EPC in range.</string>
 
     <!-- Settings -->
+    <!-- Reader backend selection -->
+    <string name="settings_backend">UHF reader</string>
+    <string name="backend_auto">Auto-detect</string>
+    <string name="backend_sunmi">Sunmi (built-in)</string>
+    <string name="backend_chainway_usb">Chainway USB</string>
+    <string name="backend_chainway_ble">Chainway Bluetooth</string>
+    <string name="settings_ble_none">Bluetooth reader: not selected</string>
+    <string name="settings_ble_choose">Choose…</string>
+    <string name="ble_picker_title">Choose Bluetooth reader</string>
+    <string name="ble_picker_scanning">Scanning for readers…</string>
+    <string name="ble_picker_empty">No devices found yet</string>
+    <string name="ble_permission_missing">Bluetooth permission is required to scan for readers</string>
     <string name="settings_title">Settings</string>
     <string name="settings_close">Close</string>
     <string name="settings_access_pwd">Access password (8 hex digits)</string>

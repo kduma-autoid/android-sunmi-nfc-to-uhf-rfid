@@ -24,4 +24,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "NFC to RFID"
 include(":app")
+include(":core")
  

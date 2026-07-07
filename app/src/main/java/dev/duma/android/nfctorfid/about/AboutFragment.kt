@@ -55,10 +55,7 @@ class AboutFragment : Fragment() {
                         is UhfController.ReaderState.NoReader ->
                             getString(R.string.reader_none)
                         is UhfController.ReaderState.Ready ->
-                            getString(
-                                R.string.reader_ready,
-                                UhfController.modelName(state.model),
-                            )
+                            getString(R.string.reader_ready, state.description)
                     }
                 }
             }

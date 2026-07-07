@@ -3,6 +3,7 @@ package dev.duma.android.nfctorfid
 import android.content.Context
 import androidx.core.content.edit
 import dev.duma.android.nfctorfid.epc.hexToBytesOrNull
+import dev.duma.android.nfctorfid.uhf.ReaderBackend
 
 class AppSettings(context: Context) {
 
@@ -41,6 +42,22 @@ class AppSettings(context: Context) {
         get() = prefs.getBoolean(KEY_CONTINUOUS, false)
         set(value) = prefs.edit { putBoolean(KEY_CONTINUOUS, value) }
 
+    /** Which UHF reader to use; AUTO probes USB → Sunmi → saved BLE device. */
+    var backend: ReaderBackend
+        get() = prefs.getString(KEY_BACKEND, null)
+            ?.let { runCatching { ReaderBackend.valueOf(it) }.getOrNull() }
+            ?: ReaderBackend.AUTO
+        set(value) = prefs.edit { putString(KEY_BACKEND, value.name) }
+
+    /** MAC of the last chosen Chainway Bluetooth reader. */
+    var bleMac: String?
+        get() = prefs.getString(KEY_BLE_MAC, null)
+        set(value) = prefs.edit { putString(KEY_BLE_MAC, value) }
+
+    var bleName: String?
+        get() = prefs.getString(KEY_BLE_NAME, null)
+        set(value) = prefs.edit { putString(KEY_BLE_NAME, value) }
+
     fun accessPasswordBytes(): ByteArray? = passwordBytes(accessPasswordHex)
 
     fun killPasswordBytes(): ByteArray? = passwordBytes(killPasswordHex)
@@ -63,6 +80,9 @@ class AppSettings(context: Context) {
         private const val KEY_READ_POWER_DBM = "read_power_dbm"
         private const val KEY_WRITE_POWER_DBM = "write_power_dbm"
         private const val KEY_CONTINUOUS = "continuous_mode"
+        private const val KEY_BACKEND = "backend"
+        private const val KEY_BLE_MAC = "ble_mac"
+        private const val KEY_BLE_NAME = "ble_name"
 
         fun isValidPasswordHex(hex: String): Boolean {
             val bytes = hex.hexToBytesOrNull() ?: return false

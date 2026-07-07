@@ -18,6 +18,11 @@ android {
         versionName = providers.gradleProperty("appVersionName").get()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // The Chainway DeviceAPI ships native libs for ARM only.
+        ndk {
+            abiFilters += listOf("armeabi-v7a", "arm64-v8a")
+        }
     }
 
     signingConfigs {
@@ -58,7 +63,9 @@ android {
 }
 
 dependencies {
+    implementation(project(":core"))
     implementation(files("libs/SunmiScannerSdk-release-v1.1.12.aar"))
+    implementation(files("libs/DeviceAPI_ver20251103_release.aar"))
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
     implementation(libs.material)

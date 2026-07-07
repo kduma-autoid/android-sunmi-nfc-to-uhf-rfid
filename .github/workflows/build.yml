@@ -56,7 +56,7 @@ jobs:
           } >> "$GITHUB_ENV"
 
       - name: Unit tests
-        run: ./gradlew :app:testDebugUnitTest
+        run: ./gradlew :core:testDebugUnitTest :app:testDebugUnitTest
 
       - name: Build release APK
         run: ./gradlew :app:assembleRelease
