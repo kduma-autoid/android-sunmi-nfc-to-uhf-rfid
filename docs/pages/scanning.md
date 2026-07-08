@@ -1,6 +1,6 @@
 ---
 title: Bulk inventory and validation
-keywords: [scan, inventory, trigger key, RSSI, read count, share, clear, pairing, paired, missing tag]
+keywords: [scan, inventory, trigger key, RSSI, read count, share, clear, pairing, paired, missing tag, inventory mode, high speed, balanced, traversal, session]
 categories: [usage]
 related: [validating, encoding]
 ---
@@ -10,6 +10,19 @@ Press **Start scan** or hold the **trigger key** to run a continuous UHF invento
 on the **Scan** tab. The trigger works on every [reader backend](readers): the Sunmi
 RFID trigger key as well as the built-in trigger of Chainway R2/R3 handhelds over
 USB or Bluetooth.
+
+How tags respond to the inventory is controlled by the **Inventory mode**
+[setting](settings), which selects the EPC Gen2 session used on this tab:
+
+- **High speed** (default) — tags answer continuously; best for finding a single
+  tag and watching its live RSSI.
+- **Balanced** — each tag stays quiet for a moment after it has been read, giving
+  the others more air time.
+- **Traversal** — each tag answers once per scan; best for taking inventory of
+  many tags at once.
+
+The mode applies only to this tab — encoding, validation and the post-write
+verification always scan in high speed.
 
 Tags encoded by this app are listed with their decoded UID, live RSSI and read count;
 foreign tags are only counted, not listed. The list accumulates between scans —

@@ -16,7 +16,8 @@ forced in [Settings](settings).
 | Chainway USB | USB cable / dock | Chainway desktop and handheld readers, e.g. R3 |
 | Chainway Bluetooth | Bluetooth LE | Chainway handheld readers, e.g. R2 / R3 |
 
-Tested with **Chainway R2**, **Chainway R3**, **Sunmi L2k** and **Sunmi L2s RFID**.
+Tested with **Chainway R2**, **Chainway R3**, **Sunmi L2k**, **Sunmi L2s RFID**
+and **Sunmi L3**.
 
 ## Auto-detection
 

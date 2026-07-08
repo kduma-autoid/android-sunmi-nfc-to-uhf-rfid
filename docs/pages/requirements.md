@@ -13,7 +13,7 @@ related: [readers, installation, epc-format]
 | Cards | NFC-A: MIFARE Classic/Ultralight, NTAG, DESFire (UID 4, 7 or 10 bytes) |
 | Tags | EPC Gen2 (ISO 18000-6C) with a 96-bit EPC bank — e.g. Impinj Monza R6, M730/M750, NXP UCODE 8/9 |
 
-Tested with Chainway R2, Chainway R3, Sunmi L2k and Sunmi L2s RFID.
+Tested with Chainway R2, Chainway R3, Sunmi L2k, Sunmi L2s RFID and Sunmi L3.
 
 > [!NOTE]
 > Cards with random UIDs (e.g. bank cards) are rejected — a random UID cannot serve

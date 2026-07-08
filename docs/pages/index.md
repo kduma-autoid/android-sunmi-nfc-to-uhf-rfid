@@ -16,7 +16,7 @@ It runs on Sunmi handheld terminals with UHF RFID — a built-in module (L2s RFI
 L3) or the UHF trigger handle attached to an L2k / L2s / L2H / L2s Pro — and on any
 NFC-capable Android device paired with an external Chainway reader (e.g. R2 / R3)
 over USB or Bluetooth — see [Supported readers](readers). Tested with Chainway R2,
-Chainway R3, Sunmi L2k and Sunmi L2s RFID.
+Chainway R3, Sunmi L2k, Sunmi L2s RFID and Sunmi L3.
 
 Typical use case: assets or badges carry both an NFC card (short-range, secure
 identification) and a UHF label (long-range, bulk inventory). This app encodes the
