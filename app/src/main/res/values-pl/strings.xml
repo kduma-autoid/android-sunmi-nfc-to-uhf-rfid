@@ -128,6 +128,11 @@
     <string name="settings_password_invalid">Wpisz dokładnie 8 znaków hex</string>
     <string name="settings_lock_needs_passwords">Blokowanie wymaga ustawienia obu haseł (różnych od zera).</string>
     <string name="settings_lock">Blokuj tagi po zapisie</string>
+    <string name="settings_inventory_mode">Tryb inwentaryzacji</string>
+    <string name="inventory_mode_high_speed">Wysoka prędkość — tagi odpowiadają ciągle (najlepszy dla pojedynczych tagów, żywe RSSI)</string>
+    <string name="inventory_mode_balance">Zrównoważony — krótka cisza taga po każdym odczycie</string>
+    <string name="inventory_mode_traversal">Przegląd — każdy tag odpowiada raz (najlepszy do masowej inwentaryzacji)</string>
+    <string name="settings_inventory_mode_hint">Sesja Gen2 używana na zakładce Skanuj. Kodowanie i walidacja zawsze skanują w trybie wysokiej prędkości.</string>
     <string name="settings_scan_seconds">Czas skanowania: %d s</string>
     <string name="settings_read_power">Moc odczytu: %d dBm</string>
     <string name="settings_write_power">Moc zapisu: %d dBm</string>

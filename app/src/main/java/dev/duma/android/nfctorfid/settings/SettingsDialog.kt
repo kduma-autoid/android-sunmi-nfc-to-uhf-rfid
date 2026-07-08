@@ -11,6 +11,7 @@ import dev.duma.android.nfctorfid.AppSettings
 import dev.duma.android.nfctorfid.MainActivity
 import dev.duma.android.nfctorfid.R
 import dev.duma.android.nfctorfid.databinding.DialogSettingsBinding
+import dev.duma.android.nfctorfid.uhf.InventoryMode
 import dev.duma.android.nfctorfid.uhf.ReaderBackend
 import kotlinx.coroutines.launch
 
@@ -73,6 +74,14 @@ class SettingsDialog : DialogFragment() {
             BleDevicePickerDialog().show(parentFragmentManager, "blePicker")
         }
 
+        binding.groupInventoryMode.check(
+            when (settings.inventoryMode) {
+                InventoryMode.HIGH_SPEED -> R.id.radio_mode_high_speed
+                InventoryMode.BALANCE -> R.id.radio_mode_balance
+                InventoryMode.TRAVERSAL -> R.id.radio_mode_traversal
+            }
+        )
+
         binding.inputAccessPwd.setText(settings.accessPasswordHex)
         binding.inputKillPwd.setText(settings.killPasswordHex)
         binding.switchLock.isChecked = settings.lockEnabled
@@ -132,6 +141,11 @@ class SettingsDialog : DialogFragment() {
         settings.scanSeconds = binding.sliderScanSeconds.value.toInt()
         settings.readPowerDbm = binding.sliderReadPower.value.toInt()
         settings.writePowerDbm = binding.sliderWritePower.value.toInt()
+        settings.inventoryMode = when (binding.groupInventoryMode.checkedRadioButtonId) {
+            R.id.radio_mode_balance -> InventoryMode.BALANCE
+            R.id.radio_mode_traversal -> InventoryMode.TRAVERSAL
+            else -> InventoryMode.HIGH_SPEED
+        }
 
         val newBackend = when (binding.groupBackend.checkedRadioButtonId) {
             R.id.radio_backend_sunmi -> ReaderBackend.SUNMI
@@ -146,6 +160,7 @@ class SettingsDialog : DialogFragment() {
         if (backendChanged) {
             main.reconnectReader()
         } else {
+            // The inventory mode is applied by the Scan tab when a scan starts.
             main.lifecycleScope.launch { main.uhf.applyPower(settings.readPowerDbm) }
         }
         dismiss()

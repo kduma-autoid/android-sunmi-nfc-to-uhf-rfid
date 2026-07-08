@@ -22,6 +22,7 @@ import dev.duma.android.nfctorfid.scan.ScanFragment
 import dev.duma.android.nfctorfid.settings.SettingsDialog
 import dev.duma.android.nfctorfid.uhf.ChainwayBleUhfController
 import dev.duma.android.nfctorfid.uhf.ChainwayUsbUhfController
+import dev.duma.android.nfctorfid.uhf.InventoryMode
 import dev.duma.android.nfctorfid.uhf.ReaderBackend
 import dev.duma.android.nfctorfid.uhf.SunmiUhfController
 import dev.duma.android.nfctorfid.uhf.UhfController
@@ -131,6 +132,9 @@ class MainActivity : AppCompatActivity(), NfcCardReader.Listener {
                 reader.state.collect { state ->
                     if (state is UhfController.ReaderState.Ready) {
                         reader.applyPower(settings.readPowerDbm)
+                        // The configured inventory mode is applied only while the
+                        // Scan tab is scanning; normalize to high speed otherwise.
+                        reader.applyInventoryMode(InventoryMode.HIGH_SPEED)
                     }
                 }
             }

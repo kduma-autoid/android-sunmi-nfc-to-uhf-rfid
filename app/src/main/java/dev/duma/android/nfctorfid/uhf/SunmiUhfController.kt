@@ -271,6 +271,14 @@ class SunmiUhfController(private val context: Context) : UhfController {
         }
     }
 
+    @Volatile
+    private var inventoryMode = InventoryMode.HIGH_SPEED
+
+    override suspend fun applyInventoryMode(mode: InventoryMode) {
+        // The mode is applied per inventory round command — nothing to send now.
+        inventoryMode = mode
+    }
+
     /**
      * Runs inventory rounds until [durationMs] elapses and returns unique tags by EPC.
      * [onUpdate] fires on a Binder thread after each new observation.
@@ -278,6 +286,12 @@ class SunmiUhfController(private val context: Context) : UhfController {
     override suspend fun scanTags(
         durationMs: Long,
         onUpdate: ((Map<String, TagInfo>) -> Unit)?,
+    ): Map<String, TagInfo> = scanTagsWith(inventoryMode, durationMs, onUpdate)
+
+    private suspend fun scanTagsWith(
+        mode: InventoryMode,
+        durationMs: Long,
+        onUpdate: ((Map<String, TagInfo>) -> Unit)? = null,
     ): Map<String, TagInfo> {
         awaitReady()
         val tags = ConcurrentHashMap<String, TagInfo>()
@@ -297,11 +311,26 @@ class SunmiUhfController(private val context: Context) : UhfController {
             val deadline = SystemClock.elapsedRealtime() + durationMs
             while (SystemClock.elapsedRealtime() < deadline) {
                 // A round with no tags reports onFailed — keep scanning until the deadline.
-                val result = execute(
-                    setOf(CMD.REAL_TIME_INVENTORY),
-                    "inventory round",
-                    INVENTORY_ROUND_TIMEOUT_MS,
-                ) { it.realTimeInventory(1) }
+                val result = when (mode) {
+                    InventoryMode.HIGH_SPEED -> execute(
+                        setOf(CMD.REAL_TIME_INVENTORY),
+                        "inventory round",
+                        INVENTORY_ROUND_TIMEOUT_MS,
+                    ) { it.realTimeInventory(1) }
+
+                    // Same arguments as Sunmi's own demo app uses for the balance
+                    // and traversal modes: (session, target A, 0, 0, no power-save,
+                    // one repeat). FastTID is intentionally not enabled.
+                    else -> execute(
+                        setOf(CMD.CUSTOMIZED_SESSION_TARGET_INVENTORY),
+                        "inventory round",
+                        INVENTORY_ROUND_TIMEOUT_MS,
+                    ) {
+                        it.customizedSessionTargetInventory(
+                            mode.gen2Session.toByte(), 0x00, 0x00, 0x00, 0x00, 1,
+                        )
+                    }
+                }
                 if (result is CommandResult.Failure &&
                     result.errorCode == UhfError.ERR_INVALID_PARAMETER
                 ) {
@@ -410,7 +439,9 @@ class SunmiUhfController(private val context: Context) : UhfController {
         var oldStillPresent = false
         repeat(VERIFY_ATTEMPTS) {
             if (newTagSeen) return@repeat
-            val readBack = scanTags(VERIFY_WINDOW_MS)
+            // Always verify in high-speed (S0): a tag silenced by S1/S2 session
+            // persistence would fail the read-back falsely.
+            val readBack = scanTagsWith(InventoryMode.HIGH_SPEED, VERIFY_WINDOW_MS)
             newTagSeen = readBack.containsKey(newEpcHex)
             // A twin tag with the identical old EPC would have been hidden by
             // EPC-keyed dedup during the scan; if the old EPC is still in field,

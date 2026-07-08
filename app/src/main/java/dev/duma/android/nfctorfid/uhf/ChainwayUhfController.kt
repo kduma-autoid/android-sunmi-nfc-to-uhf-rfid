@@ -98,6 +98,29 @@ abstract class ChainwayUhfController(context: Context) : UhfController {
         }
     }
 
+    @Volatile
+    private var inventoryMode = InventoryMode.HIGH_SPEED
+
+    override suspend fun applyInventoryMode(mode: InventoryMode) {
+        inventoryMode = mode
+        if (mutableState.value is ReaderState.Ready) applyGen2Session(mode.gen2Session)
+    }
+
+    /**
+     * Chainway keeps the Gen2 query parameters in the module configuration —
+     * read-modify-write only the session and target, best-effort.
+     */
+    private suspend fun applyGen2Session(session: Int) {
+        withContext(Dispatchers.IO) {
+            runCatching {
+                val gen2 = uhf.gen2 ?: return@runCatching
+                gen2.querySession = session
+                gen2.queryTarget = 0 // target A
+                uhf.setGen2(gen2)
+            }
+        }
+    }
+
     override suspend fun scanTags(
         durationMs: Long,
         onUpdate: ((Map<String, TagInfo>) -> Unit)?,
@@ -222,15 +245,27 @@ abstract class ChainwayUhfController(context: Context) : UhfController {
         onStep(WriteStep.VERIFYING)
         var newTagSeen = false
         var oldStillPresent = false
-        repeat(VERIFY_ATTEMPTS) {
-            if (newTagSeen) return@repeat
-            val readBack = scanTags(VERIFY_WINDOW_MS)
-            newTagSeen = readBack.containsKey(newEpcHex)
-            // A twin tag with the identical old EPC would have been hidden by
-            // EPC-keyed dedup during the scan; if the old EPC is still in field,
-            // one twin took the write and the other did not.
-            oldStillPresent = !skipEpcWrite && currentEpcUpper != newEpcHex &&
-                readBack.containsKey(currentEpcUpper)
+        // Always verify in high-speed (S0): a tag silenced by S1/S2 session
+        // persistence would fail the read-back falsely.
+        val configuredMode = inventoryMode
+        if (configuredMode != InventoryMode.HIGH_SPEED) {
+            applyGen2Session(InventoryMode.HIGH_SPEED.gen2Session)
+        }
+        try {
+            repeat(VERIFY_ATTEMPTS) {
+                if (newTagSeen) return@repeat
+                val readBack = scanTags(VERIFY_WINDOW_MS)
+                newTagSeen = readBack.containsKey(newEpcHex)
+                // A twin tag with the identical old EPC would have been hidden by
+                // EPC-keyed dedup during the scan; if the old EPC is still in field,
+                // one twin took the write and the other did not.
+                oldStillPresent = !skipEpcWrite && currentEpcUpper != newEpcHex &&
+                    readBack.containsKey(currentEpcUpper)
+            }
+        } finally {
+            if (configuredMode != InventoryMode.HIGH_SPEED) {
+                applyGen2Session(configuredMode.gen2Session)
+            }
         }
         if (!newTagSeen) {
             throw UhfError.VerifyFailed("tag not read back with expected EPC")

@@ -18,12 +18,15 @@ import dev.duma.android.nfctorfid.epc.colonizeHex
 import dev.duma.android.nfctorfid.epc.toHex
 import dev.duma.android.nfctorfid.nfc.NfcCardConsumer
 import dev.duma.android.nfctorfid.nfc.OriginalityStatus
+import dev.duma.android.nfctorfid.uhf.InventoryMode
 import dev.duma.android.nfctorfid.uhf.TagInfo
 import dev.duma.android.nfctorfid.uhf.toUserMessage
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ScanFragment : Fragment(), NfcCardConsumer {
 
@@ -91,6 +94,9 @@ class ScanFragment : Fragment(), NfcCardConsumer {
             updateScanButton()
             try {
                 main.uhf.awaitReady()
+                // The configured mode applies only to this tab; encoding and
+                // validation always scan in high speed.
+                main.uhf.applyInventoryMode(main.settings.inventoryMode)
                 while (isActive) {
                     val tags = main.uhf.scanTags(SCAN_WINDOW_MS)
                     merge(tags.values)
@@ -101,6 +107,9 @@ class ScanFragment : Fragment(), NfcCardConsumer {
             } catch (e: Exception) {
                 context?.let { Toast.makeText(it, e.toUserMessage(it), Toast.LENGTH_SHORT).show() }
             } finally {
+                withContext(NonCancellable) {
+                    runCatching { main.uhf.applyInventoryMode(InventoryMode.HIGH_SPEED) }
+                }
                 updateScanButton()
             }
         }

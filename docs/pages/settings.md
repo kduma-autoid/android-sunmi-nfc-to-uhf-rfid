@@ -22,6 +22,7 @@ Open the settings with the gear icon in the top bar.
 | Access password | — | 8 hex digits. Used to lock tags and to re-encode tags locked by this app |
 | Kill password | — | 8 hex digits. Written to the tag so nobody else can set one and kill the tag |
 | Lock tags after writing | on | Requires both passwords to be set and non-zero |
+| Inventory mode | High speed | Gen2 session preset used on the [Scan tab](scanning). **High speed** (S0) — tags answer continuously, best for single tags and live RSSI; **Balanced** (S1) — short quiet period after each read; **Traversal** (S2) — each tag answers once, best for bulk inventory. Encoding, validation and the post-write verification always scan in high speed |
 | Scan duration | 3 s | Length of the UHF check in the Encode workflow and the Validate search window |
 | Read power | 20 dBm | Inventory power. Keep it low — a small field makes isolating a single tag easier |
 | Write power | 26 dBm | Power used for write/lock operations. Writes target one EPC, so more power is safe. Internal modules accept 18–26 dBm; each reader clamps the value to its own range (Sunmi 10–33 dBm, Chainway 1–30 dBm) |

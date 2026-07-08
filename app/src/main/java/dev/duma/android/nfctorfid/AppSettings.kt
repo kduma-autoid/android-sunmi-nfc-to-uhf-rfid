@@ -3,6 +3,7 @@ package dev.duma.android.nfctorfid
 import android.content.Context
 import androidx.core.content.edit
 import dev.duma.android.nfctorfid.epc.hexToBytesOrNull
+import dev.duma.android.nfctorfid.uhf.InventoryMode
 import dev.duma.android.nfctorfid.uhf.ReaderBackend
 
 class AppSettings(context: Context) {
@@ -58,6 +59,13 @@ class AppSettings(context: Context) {
         get() = prefs.getString(KEY_BLE_NAME, null)
         set(value) = prefs.edit { putString(KEY_BLE_NAME, value) }
 
+    /** Gen2 session preset used while scanning; see [InventoryMode]. */
+    var inventoryMode: InventoryMode
+        get() = prefs.getString(KEY_INVENTORY_MODE, null)
+            ?.let { runCatching { InventoryMode.valueOf(it) }.getOrNull() }
+            ?: InventoryMode.HIGH_SPEED
+        set(value) = prefs.edit { putString(KEY_INVENTORY_MODE, value.name) }
+
     fun accessPasswordBytes(): ByteArray? = passwordBytes(accessPasswordHex)
 
     fun killPasswordBytes(): ByteArray? = passwordBytes(killPasswordHex)
@@ -83,6 +91,7 @@ class AppSettings(context: Context) {
         private const val KEY_BACKEND = "backend"
         private const val KEY_BLE_MAC = "ble_mac"
         private const val KEY_BLE_NAME = "ble_name"
+        private const val KEY_INVENTORY_MODE = "inventory_mode"
 
         fun isValidPasswordHex(hex: String): Boolean {
             val bytes = hex.hexToBytesOrNull() ?: return false

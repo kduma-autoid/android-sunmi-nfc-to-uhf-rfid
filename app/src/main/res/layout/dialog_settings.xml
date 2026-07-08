@@ -143,6 +143,43 @@
             android:text="@string/settings_lock" />
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/settings_inventory_mode"
+            android:textAppearance="?attr/textAppearanceSubtitle2" />
+
+        <RadioGroup
+            android:id="@+id/group_inventory_mode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/radio_mode_high_speed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/inventory_mode_high_speed" />
+
+            <RadioButton
+                android:id="@+id/radio_mode_balance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/inventory_mode_balance" />
+
+            <RadioButton
+                android:id="@+id/radio_mode_traversal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/inventory_mode_traversal" />
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_inventory_mode_hint"
+            android:textAppearance="?attr/textAppearanceCaption" />
+
+        <TextView
             android:id="@+id/tv_scan_seconds_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

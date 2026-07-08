@@ -126,6 +126,11 @@
     <string name="settings_password_invalid">Enter exactly 8 hex digits</string>
     <string name="settings_lock_needs_passwords">Locking requires both passwords set and non-zero.</string>
     <string name="settings_lock">Lock tags after writing</string>
+    <string name="settings_inventory_mode">Inventory mode</string>
+    <string name="inventory_mode_high_speed">High speed — tags answer continuously (best for single tags, live RSSI)</string>
+    <string name="inventory_mode_balance">Balanced — short quiet period after each read</string>
+    <string name="inventory_mode_traversal">Traversal — each tag answers once (best for bulk inventory)</string>
+    <string name="settings_inventory_mode_hint">Gen2 session used on the Scan tab. Encoding and validation always scan in high speed.</string>
     <string name="settings_scan_seconds">Scan duration: %d s</string>
     <string name="settings_read_power">Read power: %d dBm</string>
     <string name="settings_write_power">Write power: %d dBm</string>
