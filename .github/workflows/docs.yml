@@ -200,7 +200,7 @@ jobs:
     with:
       registry-url: ${{ vars.KHB_REGISTRY_URL }}
       source: docs
-      version: v0.0.3
+      version: latest
     permissions:
       contents: read
       id-token: write
