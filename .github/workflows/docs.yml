@@ -191,3 +191,16 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+  
+  publish-registry:
+    name: Publish documentation to KHB registry
+    needs: build
+    if: github.event_name != 'workflow_call' && github.ref == 'refs/heads/main'
+    uses: KDHelpBook/monorepo/.github/workflows/publish-registry.yml@v0
+    with:
+      registry-url: ${{ vars.KHB_REGISTRY_URL }}
+      source: docs
+      version: v0
+    permissions:
+      contents: read
+      id-token: write
